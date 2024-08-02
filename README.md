@@ -1,8 +1,30 @@
-# React + Vite
+Admin
+---
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Web admin portal for Terra Major.
 
-Currently, two official plugins are available:
+## Run database locally
+First, create a `.env` file in the root of the directory with the following values:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```bash
+VITE_API_BASE_URL=http://localhost:8000
+```
+
+## Run app in Dev mode locally
+To run the app locally,
+
+```bash
+docker compose up --build dev
+```
+
+This will run the app locally on [http://localhost:5173](http://localhost:5173)
+
+## Run app in Release mode locally 
+
+To build the release:
+
+```bash
+docker compose up --build release
+```
+
+This will run the ap locally on [http://localhost](http://localhost). 
