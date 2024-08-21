@@ -7,28 +7,26 @@ import {
   DataGridBody,
   DataGridHeaderCell,
   createTableColumn,
+  Spinner
 } from '@fluentui/react-components';
 
+import fetchAccounts from '../services/accounts';
+
 function AccountsList() {
+
   const [accounts, setAccounts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const { VITE_API_BASE_URL } = import.meta.env;
-    const fetchAccounts = async () => {
-      try {
-        const response = await fetch(`${VITE_API_BASE_URL}/accounts`);
-        const data = await response.json();
-        setAccounts(data);
-      } catch (error) {
-        console.error('Error fetching accounts:', error);
-      }
-    };
-
-    fetchAccounts();
+    fetchAccounts(setAccounts, setLoading);
   }, []);
 
+  if (loading) {
+    return <Spinner label="Loading accounts..." />;
+  }
+
   if (!accounts.length) {
-    return <p>Loading...</p>;
+    return <p>No accounts found.</p>;
   }
 
   const columns = [
