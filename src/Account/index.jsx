@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Card, CardHeader, Text, Spinner } from '@fluentui/react-components';
 import fetchAccount from '../services/account';
+import './styles.css';
 
 export default function Account() {
   const { id } = useParams();
@@ -23,16 +24,27 @@ export default function Account() {
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <Text variant="large">Account Details</Text>
-      </CardHeader>
-      <>
+    <>
+      <h1>Account Details</h1>
+      <Card>
         <Text><strong>ID:</strong> {account.id}</Text>
         <Text><strong>Email:</strong> {account.email}</Text>
         <Text><strong>Created:</strong> {new Date(account.created).toLocaleString()}</Text>
         <Text><strong>Updated:</strong> {new Date(account.updated).toLocaleString()}</Text>
-      </>
-    </Card>
+      </Card>
+      <Card className="secondary-card">
+        <CardHeader>Account Sandboxes</CardHeader>
+          {account.sandboxes && account.sandboxes.length > 0 ? (
+            <>
+              <CardHeader>Account Sandboxes</CardHeader>
+              {account.sandboxes.map((sandbox) => (
+                <Text key={sandbox.id}>{sandbox.name}</Text>
+              ))}
+            </>
+          ) : (
+            <Text className="secondary-card--text">No sandboxes found for this account.</Text>
+          )}
+      </Card>
+    </>
   );
 }
