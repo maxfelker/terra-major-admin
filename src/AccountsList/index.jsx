@@ -9,13 +9,13 @@ import {
   createTableColumn,
   Spinner
 } from '@fluentui/react-components';
-
+import { useNavigate } from 'react-router-dom';
 import fetchAccounts from '../services/accounts';
 
-function AccountsList() {
-
+export default function AccountsList() {
   const [accounts, setAccounts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchAccounts(setAccounts, setLoading);
@@ -52,6 +52,10 @@ function AccountsList() {
     }),
   ];
 
+  const handleRowClick = (id) => {
+    navigate(`/account/${id}`);
+  };
+
   return (
     <DataGrid
       items={accounts}
@@ -67,7 +71,7 @@ function AccountsList() {
       </DataGridHeader>
       <DataGridBody>
         {({ item, rowId }) => (
-          <DataGridRow key={rowId}>
+          <DataGridRow key={rowId} onClick={() => handleRowClick(item.id)}>
             {({ renderCell }) => (
               <DataGridCell>{renderCell(item)}</DataGridCell>
             )}
@@ -77,5 +81,3 @@ function AccountsList() {
     </DataGrid>
   );
 }
-
-export default AccountsList;
