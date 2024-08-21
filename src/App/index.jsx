@@ -9,7 +9,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<AccountsList />} />
-          <Route path="/account" element={<Account />} />
+          <Route path="/accounts/:id" element={<Account />} />
         </Routes>
       </Router>
     </FluentProvider>

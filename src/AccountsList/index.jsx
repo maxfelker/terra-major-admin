@@ -53,7 +53,7 @@ export default function AccountsList() {
   ];
 
   const handleRowClick = (id) => {
-    navigate(`/account/${id}`);
+    navigate(`/accounts/${id}`);
   };
 
   return (
