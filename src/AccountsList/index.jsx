@@ -57,27 +57,30 @@ export default function AccountsList() {
   };
 
   return (
-    <DataGrid
-      items={accounts}
-      columns={columns}
-      getRowId={(item) => item.id}
-    >
-      <DataGridHeader>
-        <DataGridRow>
-          {({ renderHeaderCell }) => (
-            <DataGridHeaderCell>{renderHeaderCell()}</DataGridHeaderCell>
-          )}
-        </DataGridRow>
-      </DataGridHeader>
-      <DataGridBody>
-        {({ item, rowId }) => (
-          <DataGridRow key={rowId} onClick={() => handleRowClick(item.id)}>
-            {({ renderCell }) => (
-              <DataGridCell>{renderCell(item)}</DataGridCell>
+    <>
+      <h1>Accounts</h1>
+      <DataGrid
+        items={accounts}
+        columns={columns}
+        getRowId={(item) => item.id}
+      >
+        <DataGridHeader>
+          <DataGridRow>
+            {({ renderHeaderCell }) => (
+              <DataGridHeaderCell>{renderHeaderCell()}</DataGridHeaderCell>
             )}
           </DataGridRow>
-        )}
-      </DataGridBody>
-    </DataGrid>
+        </DataGridHeader>
+        <DataGridBody>
+          {({ item, rowId }) => (
+            <DataGridRow key={rowId} onClick={() => handleRowClick(item.id)}>
+              {({ renderCell }) => (
+                <DataGridCell>{renderCell(item)}</DataGridCell>
+              )}
+            </DataGridRow>
+          )}
+        </DataGridBody>
+      </DataGrid>
+    </>
   );
 }
