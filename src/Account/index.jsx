@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Card, CardHeader, Text, Spinner } from '@fluentui/react-components';
-import fetchAccount from '../services/account';
+import { loadAccount } from '../utils/accounts';
 import './styles.css';
 
 export default function Account() {
@@ -12,7 +12,7 @@ export default function Account() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchAccount(id, setAccount, setLoading, setError);
+    loadAccount(id, setLoading, setAccount, setError);
   }, [id]);
 
   if (loading) {

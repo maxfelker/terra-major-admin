@@ -7,18 +7,21 @@ import {
   DataGridBody,
   DataGridHeaderCell,
   createTableColumn,
-  Spinner
+  Spinner,
+  Text
 } from '@fluentui/react-components';
 import { useNavigate } from 'react-router-dom';
-import fetchAccounts from '../services/accounts';
+import { loadAccounts } from '../utils/accounts';
 
 export default function AccountsList() {
   const [accounts, setAccounts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchAccounts(setAccounts, setLoading);
+    loadAccounts(setLoading, setAccounts, setError);
   }, []);
 
   if (loading) {
@@ -56,6 +59,10 @@ export default function AccountsList() {
     navigate(`/accounts/${id}`);
   };
 
+  if (error) {
+    return <Text variant="large" color="red">Error: {error.message}</Text>;
+  }
+
   return (
     <>
       <h1>Accounts</h1>
@@ -64,6 +71,7 @@ export default function AccountsList() {
         columns={columns}
         getRowId={(item) => item.id}
       >
+        
         <DataGridHeader>
           <DataGridRow>
             {({ renderHeaderCell }) => (
