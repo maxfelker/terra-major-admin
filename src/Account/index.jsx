@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Card, CardHeader, Text, Spinner } from '@fluentui/react-components';
 import { loadAccount } from '../utils/accounts';
-import './styles.css';
+import styles from './styles.module.css';
 
 export default function Account() {
   const { id } = useParams();
@@ -14,6 +14,10 @@ export default function Account() {
   useEffect(() => {
     loadAccount(id, setLoading, setAccount, setError);
   }, [id]);
+
+  function displayDateString(date) {
+      return new Date(date).toLocaleString() || ''
+  }
 
   if (loading) {
     return <Spinner label="Loading account details..." />;
@@ -29,10 +33,10 @@ export default function Account() {
       <Card>
         <Text><strong>ID:</strong> {account.id}</Text>
         <Text><strong>Email:</strong> {account.email}</Text>
-        <Text><strong>Created:</strong> {new Date(account.created).toLocaleString()}</Text>
-        <Text><strong>Updated:</strong> {new Date(account.updated).toLocaleString()}</Text>
+        <Text><strong>Created:</strong> {displayDateString(account.created)}</Text>
+        <Text><strong>Updated:</strong> {displayDateString(account.updated)}</Text>
       </Card>
-      <Card className="secondary-card">
+      <Card className={styles.secondaryCard}>
         <CardHeader>Account Sandboxes</CardHeader>
           {account.sandboxes && account.sandboxes.length > 0 ? (
             <>
@@ -42,7 +46,7 @@ export default function Account() {
               ))}
             </>
           ) : (
-            <Text className="secondary-card--text">No sandboxes found for this account.</Text>
+            <Text className={styles.secondaryCardText}>No sandboxes found for this account.</Text>
           )}
       </Card>
     </>

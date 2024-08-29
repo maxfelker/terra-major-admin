@@ -10,7 +10,7 @@ export async function loadAccount(id, setLoading, setAccount, setError) {
     } finally {
         setLoading(false);
     }
-};
+}
 
 export async function loadAccounts(setLoading, setAccounts, setError) {
     setLoading(true);
@@ -22,4 +22,4 @@ export async function loadAccounts(setLoading, setAccounts, setError) {
     } finally {
         setLoading(false);
     }
-};
+}

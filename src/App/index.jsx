@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import AccountsList from '../AccountsList';
 import Account from '../Account';
 
-function App() {
+export default function App() {
   return (
     <FluentProvider theme={webLightTheme}>
       <Router>
@@ -15,5 +15,3 @@ function App() {
     </FluentProvider>
   );
 }
-
-export default App;
