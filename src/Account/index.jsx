@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Card, CardHeader, Text, Spinner } from '@fluentui/react-components';
-import { loadAccount } from '../utils/accounts';
+import { fetchAccount } from '../services/accounts';
 import styles from './styles.module.css';
 
 export default function Account() {
@@ -12,11 +12,32 @@ export default function Account() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    loadAccount(id, setLoading, setAccount, setError);
+    let isMounted = true; // Track if the component is still mounted
+    const loadAccount = async () => {
+      setLoading(true);
+      try {
+        const account = await fetchAccount(id);
+        if (isMounted) {
+          setAccount(account);
+        }
+      } catch (error) {
+        if (isMounted) {
+          setError(error);
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+    loadAccount();
+    return () => {
+      isMounted = false; // Cleanup function to set isMounted to false
+    };
   }, [id]);
 
   function displayDateString(date) {
-      return new Date(date).toLocaleString() || ''
+      return new Date(date).toLocaleString() || '';
   }
 
   if (loading) {
