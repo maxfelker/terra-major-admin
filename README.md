@@ -1,17 +1,20 @@
-Admin
----
+# Terra Major Admin Portal
 
-Web admin portal for Terra Major.
+Welcome to the web admin portal for Terra Major.
 
-## Run database locally
-First, create a `.env` file in the root of the directory with the following values:
+## Getting Started
 
-```bash
-VITE_API_BASE_URL=http://localhost:8000
-```
+### Run Database Locally
 
-## Run app in Dev mode locally
-To run the app locally,
+1. Create a `.env` file in the root directory with the following content:
+
+    ```bash
+    VITE_API_BASE_URL=http://localhost:8000
+    ```
+
+### Run App in Development Mode
+
+To build and run the app in release mode, use the following command:
 
 ```bash
 docker compose up --build dev
@@ -19,7 +22,7 @@ docker compose up --build dev
 
 This will run the app locally on [http://localhost:5173](http://localhost:5173)
 
-## Run app in Release mode locally 
+## Run app in Release Mode locally
 
 To build the release:
 
@@ -27,4 +30,4 @@ To build the release:
 docker compose up --build release
 ```
 
-This will run the ap locally on [http://localhost](http://localhost). 
+The app will be accessible at [http://localhost](http://localhost). 

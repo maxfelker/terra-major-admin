@@ -7,18 +7,32 @@ import {
   DataGridBody,
   DataGridHeaderCell,
   createTableColumn,
-  Spinner
+  Spinner,
+  Text
 } from '@fluentui/react-components';
+import { useNavigate } from 'react-router-dom';
+import { fetchAccounts } from '../services/accounts';
 
-import fetchAccounts from '../services/accounts';
-
-function AccountsList() {
-
+export default function AccountsList() {
   const [accounts, setAccounts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetchAccounts(setAccounts, setLoading);
+    async function loadAccounts() {
+      try {
+        setLoading(true);
+        const accounts = await fetchAccounts();
+        console.log(accounts);
+        setAccounts(accounts);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadAccounts();
   }, []);
 
   if (loading) {
@@ -31,11 +45,6 @@ function AccountsList() {
 
   const columns = [
     createTableColumn({
-      columnId: 'id',
-      renderHeaderCell: () => 'Account ID',
-      renderCell: (item) => item.id,
-    }),
-    createTableColumn({
       columnId: 'email',
       renderHeaderCell: () => 'Email',
       renderCell: (item) => item.email,
@@ -44,38 +53,43 @@ function AccountsList() {
       columnId: 'created',
       renderHeaderCell: () => 'Created',
       renderCell: (item) => new Date(item.created).toLocaleString(),
-    }),
-    createTableColumn({
-      columnId: 'updated',
-      renderHeaderCell: () => 'Updated',
-      renderCell: (item) => new Date(item.updated).toLocaleString(),
-    }),
+    })
   ];
 
+  function handleRowClick(id) {
+    navigate(`/accounts/${id}`);
+  };
+
+  if (error) {
+    return <Text variant="large" color="red">Error: {error.message}</Text>;
+  }
+
   return (
-    <DataGrid
-      items={accounts}
-      columns={columns}
-      getRowId={(item) => item.id}
-    >
-      <DataGridHeader>
-        <DataGridRow>
-          {({ renderHeaderCell }) => (
-            <DataGridHeaderCell>{renderHeaderCell()}</DataGridHeaderCell>
-          )}
-        </DataGridRow>
-      </DataGridHeader>
-      <DataGridBody>
-        {({ item, rowId }) => (
-          <DataGridRow key={rowId}>
-            {({ renderCell }) => (
-              <DataGridCell>{renderCell(item)}</DataGridCell>
+    <>
+      <h1>Accounts</h1>
+      <DataGrid
+        items={accounts}
+        columns={columns}
+        getRowId={(item) => item.id}
+      >
+        
+        <DataGridHeader>
+          <DataGridRow>
+            {({ renderHeaderCell }) => (
+              <DataGridHeaderCell>{renderHeaderCell()}</DataGridHeaderCell>
             )}
           </DataGridRow>
-        )}
-      </DataGridBody>
-    </DataGrid>
+        </DataGridHeader>
+        <DataGridBody>
+          {({ item, rowId }) => (
+            <DataGridRow key={rowId} onClick={() => handleRowClick(item.id)}>
+              {({ renderCell }) => (
+                <DataGridCell>{renderCell(item)}</DataGridCell>
+              )}
+            </DataGridRow>
+          )}
+        </DataGridBody>
+      </DataGrid>
+    </>
   );
 }
-
-export default AccountsList;

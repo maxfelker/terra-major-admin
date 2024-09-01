@@ -1,15 +1,31 @@
+function getBaseUrl() {    
+    return import.meta.env.VITE_API_BASE_URL;
+}
 
-const fetchAccounts = async (setAccounts, setLoading) => {
-    const VITE_API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+export async function fetchAccounts() {
     try {
-      const response = await fetch(`${VITE_API_BASE_URL}/accounts`);
-      const data = await response.json();
-      setAccounts(data);
-      setLoading(false);
+        const url = `${getBaseUrl()}/accounts`;
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        return await response.json();
     } catch (error) {
-      console.error('Error fetching accounts:', error);
-      setLoading(false);
+        throw new Error(error);
     }
 }
 
-export default fetchAccounts;
+export async function fetchAccount(id) {
+    try {
+        const url = `${getBaseUrl()}/accounts/${id}`;
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        return await response.json();
+    } catch (error) {
+        throw error;
+    }
+};

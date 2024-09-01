@@ -1,0 +1,9 @@
+.secondaryCard {
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  margin-top: 1rem;
+}
+
+.secondaryCardText {
+  padding-bottom: 1rem;
+}
