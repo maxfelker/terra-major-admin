@@ -20,7 +20,7 @@ To build and run the app in release mode, use the following command:
 docker compose up --build dev
 ```
 
-This will run the app locally on [http://localhost:5173](http://localhost:5173)
+This will run the app locally on [http://localhost:5174](http://localhost:5174)
 
 ## Run app in Release Mode locally
 
