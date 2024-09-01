@@ -1,6 +1,5 @@
-// Account.jsx
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { Card, CardHeader, Text, Spinner } from '@fluentui/react-components';
 import { fetchAccount } from '../services/accounts';
 import styles from './styles.module.css';
@@ -12,29 +11,20 @@ export default function Account() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    let isMounted = true; // Track if the component is still mounted
-    const loadAccount = async () => {
+    async function loadAccount() {
       setLoading(true);
       try {
         const account = await fetchAccount(id);
-        if (isMounted) {
-          setAccount(account);
-        }
+        setAccount(account);
       } catch (error) {
-        if (isMounted) {
-          setError(error);
-        }
+        setAccount(null);
+        setError(error);
       } finally {
-        if (isMounted) {
-          setLoading(false);
-        }
+        setLoading(false);
       }
-    };
+    }
     loadAccount();
-    return () => {
-      isMounted = false; // Cleanup function to set isMounted to false
-    };
-  }, [id]);
+  }, []);
 
   function displayDateString(date) {
       return new Date(date).toLocaleString() || '';
@@ -58,6 +48,7 @@ export default function Account() {
         <Text><strong>Updated:</strong> {displayDateString(account.updated)}</Text>
       </Card>
       <Card className={styles.secondaryCard}>
+        {/* TODO: Turn into Sandbox list component */}
         <CardHeader>Account Sandboxes</CardHeader>
           {account.sandboxes && account.sandboxes.length > 0 ? (
             <>
@@ -70,6 +61,10 @@ export default function Account() {
             <Text className={styles.secondaryCardText}>No sandboxes found for this account.</Text>
           )}
       </Card>
+      <p>
+        <Link to="/">Back</Link>
+      </p>
+      
     </>
   );
 }

@@ -17,32 +17,22 @@ export default function AccountsList() {
   const [accounts, setAccounts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
   const navigate = useNavigate();
 
   useEffect(() => {
-    let isMounted = true; // Track if the component is still mounted
-    const loadAccounts = async () => {
-      setLoading(true);
+    async function loadAccounts() {
       try {
-        const account = await fetchAccounts();
-        if (isMounted) {
-          setAccounts(account);
-        }
+        setLoading(true);
+        const accounts = await fetchAccounts();
+        console.log(accounts);
+        setAccounts(accounts);
       } catch (error) {
-        if (isMounted) {
-          setError(error);
-        }
+        setError(error);
       } finally {
-        if (isMounted) {
-          setLoading(false);
-        }
+        setLoading(false);
       }
-    };
+    }
     loadAccounts();
-    return () => {
-      isMounted = false; // Cleanup function to set isMounted to false
-    };
   }, []);
 
   if (loading) {
@@ -55,11 +45,6 @@ export default function AccountsList() {
 
   const columns = [
     createTableColumn({
-      columnId: 'id',
-      renderHeaderCell: () => 'Account ID',
-      renderCell: (item) => item.id,
-    }),
-    createTableColumn({
       columnId: 'email',
       renderHeaderCell: () => 'Email',
       renderCell: (item) => item.email,
@@ -68,15 +53,10 @@ export default function AccountsList() {
       columnId: 'created',
       renderHeaderCell: () => 'Created',
       renderCell: (item) => new Date(item.created).toLocaleString(),
-    }),
-    createTableColumn({
-      columnId: 'updated',
-      renderHeaderCell: () => 'Updated',
-      renderCell: (item) => new Date(item.updated).toLocaleString(),
-    }),
+    })
   ];
 
-  const handleRowClick = (id) => {
+  function handleRowClick(id) {
     navigate(`/accounts/${id}`);
   };
 
